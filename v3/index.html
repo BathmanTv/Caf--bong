@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Archivo:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js" defer></script>
 <style>
   :root{
     --cream:#F7F2E9; --green:#2F4A38; --green-d:#21261F; --clay:#B5613C;
@@ -140,6 +142,17 @@
     .gallery{grid-template-columns:1fr;}
     .gallery .ph:first-child{grid-column:span 1;}
   }
+
+  /* ---- DYNAMISME : reveals au scroll (façon V1) ---- */
+  html.js :is(.hero .kicker,.hero h1,.hero p,.hero .cta,.hero-img,.strip>div,.esprit .split>*,.histoire .split>*,.carte-head>*,.cards .card,.card-dej,.lieu h2.big,.gallery .ph,.foot-grid>*){
+    opacity:0;transform:translateY(26px);
+    transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);
+  }
+  html.js :is(.hero .kicker,.hero h1,.hero p,.hero .cta,.hero-img,.strip>div,.esprit .split>*,.histoire .split>*,.carte-head>*,.cards .card,.card-dej,.lieu h2.big,.gallery .ph,.foot-grid>*).in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){
+    html.js :is(.hero .kicker,.hero h1,.hero p,.hero .cta,.hero-img,.strip>div,.esprit .split>*,.histoire .split>*,.carte-head>*,.cards .card,.card-dej,.lieu h2.big,.gallery .ph,.foot-grid>*){opacity:1!important;transform:none!important;transition:none;}
+  }
+  .btn{will-change:transform}
 </style>
 </head>
 <body>
@@ -336,10 +349,37 @@
 </footer>
 
 <script>
-  const burger=document.getElementById('burger');
-  const menu=document.getElementById('menu');
-  burger.addEventListener('click',()=>menu.classList.toggle('open'));
-  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile=matchMedia('(max-width:768px)').matches||matchMedia('(pointer:coarse)').matches;
+
+  // burger
+  var burger=document.getElementById('burger'),menu=document.getElementById('menu');
+  if(burger&&menu){burger.addEventListener('click',function(){menu.classList.toggle('open');});
+    menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');});});}
+
+  // scroll reveals (IntersectionObserver — fiable mobile, jamais bloqué)
+  var SEL='.hero .kicker,.hero h1,.hero p,.hero .cta,.hero-img,.strip>div,.esprit .split>*,.histoire .split>*,.carte-head>*,.cards .card,.card-dej,.lieu h2.big,.gallery .ph,.foot-grid>*';
+  var els=[].slice.call(document.querySelectorAll(SEL));
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});}
+  else{
+    var seen=new Map();
+    els.forEach(function(e){var k=e.parentElement,i=seen.get(k)||0;e.style.transitionDelay=Math.min(i*0.06,0.3)+'s';seen.set(k,i+1);});
+    var io=new IntersectionObserver(function(ent){ent.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(e){io.observe(e);});
+  }
+
+  // smooth scroll (desktop only)
+  if(!isMobile&&!reduce){window.addEventListener('load',function(){
+    if(window.Lenis){var lenis=new Lenis({lerp:0.09,smoothWheel:true});function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);}
+  });}
+
+  // boutons magnétiques (desktop only)
+  if(!isMobile&&!reduce){document.querySelectorAll('.hero .btn').forEach(function(el){
+    el.addEventListener('pointermove',function(e){var r=el.getBoundingClientRect();el.style.transform='translate('+((e.clientX-r.left-r.width/2)*0.22)+'px,'+((e.clientY-r.top-r.height/2)*0.22)+'px)';});
+    el.addEventListener('pointerleave',function(){el.style.transform='';});
+  });}
+})();
 </script>
 </body>
 </html>
