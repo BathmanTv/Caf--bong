@@ -3,23 +3,343 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Café Bống · Version 3 — bientôt</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;1,500&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<title>Café Bống · Atelier · Le café viet fait maison · Toulouse</title>
+<meta name="description" content="Café Bống — le café viet fait maison à Toulouse. Bubble teas, limonades, thés glacés, smoothies, gâteaux maison et déjeuner. 11 rue de la Bourse.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Archivo:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
-    font-family:'DM Sans',system-ui,sans-serif;background:#f7efe1;color:#2a2018;text-align:center;padding:24px}
-  .eyebrow{font-family:'Fraunces',serif;font-style:italic;font-size:20px;color:#b8431f}
-  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(2rem,7vw,3.2rem);margin:0}
-  p{color:#6a5a48;max-width:42ch}
-  a{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font-weight:600;font-size:15px;color:#fcf6ea;
-    background:#9e3a1a;padding:12px 22px;border-radius:999px;text-decoration:none}
-  a:hover{background:#b8431f}
+  :root{
+    --cream:#F7F2E9; --green:#2F4A38; --green-d:#21261F; --clay:#B5613C;
+    --gold:#E8C56B; --ink:#4a5347; --muted:#8a7a66; --line:rgba(33,38,31,.08);
+    --max:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Archivo',sans-serif;color:var(--green-d);background:var(--cream);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,.serif{font-family:'Marcellus','Be Vietnam Pro',serif;font-weight:400;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px;}
+  .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--clay);}
+  .ph{background:repeating-linear-gradient(135deg,#dfe1c9 0 13px,#d6d9bd 13px 26px);display:flex;align-items:center;justify-content:center;color:#7c8268;font-family:'Courier New',monospace;font-size:12px;letter-spacing:1px;text-align:center;padding:14px;border-radius:3px;}
+  .btn{display:inline-block;font-size:13px;letter-spacing:1px;padding:14px 26px;border-radius:2px;transition:transform .15s ease,opacity .2s;cursor:pointer;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn-green{background:var(--green);color:var(--cream);}
+  .btn-gold{background:var(--gold);color:var(--green-d);font-weight:600;}
+  .btn-outline{border:1px solid rgba(240,234,216,.5);color:#F0EAD8;}
+
+  /* HEADER */
+  header{position:sticky;top:0;z-index:50;background:var(--green);color:#F0EAD8;}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:66px;}
+  .logo{font-family:'Marcellus',serif;font-size:23px;letter-spacing:1px;}
+  .menu{display:flex;gap:28px;align-items:center;font-size:12px;letter-spacing:2px;text-transform:uppercase;}
+  .menu a{opacity:.85;}
+  .menu a:hover{opacity:1;color:var(--gold);}
+  .menu .btn{padding:9px 18px;}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:6px;}
+  .burger span{width:24px;height:2px;background:#F0EAD8;transition:.25s;}
+
+  /* HERO */
+  .hero{padding:72px 0 64px;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;}
+  .hero .kicker{font-family:'Marcellus',serif;font-style:italic;font-size:15px;color:var(--clay);margin-bottom:18px;}
+  .hero h1{font-size:clamp(38px,5.6vw,54px);line-height:1.07;margin-bottom:20px;}
+  .hero p{font-size:clamp(15px,1.6vw,16px);color:var(--ink);max-width:440px;margin-bottom:30px;}
+  .hero .cta{display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+  .hero .addr{color:var(--clay);font-size:13px;border-bottom:1px solid var(--clay);padding-bottom:3px;}
+  .hero-img{position:relative;height:440px;}
+  .hero-img .chip{position:absolute;bottom:14px;left:14px;background:var(--gold);color:var(--green);font-family:'Marcellus',serif;font-size:13px;padding:8px 14px;border-radius:2px;}
+
+  /* STRIP */
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);background:var(--clay);color:var(--cream);}
+  .strip > div{padding:26px 30px;border-right:1px solid rgba(247,242,233,.2);}
+  .strip > div:last-child{border-right:0;}
+  .strip .t{font-family:'Marcellus',serif;font-size:15px;margin-bottom:4px;}
+  .strip .d{font-size:12.5px;opacity:.88;}
+
+  /* SPLIT SECTIONS */
+  section{scroll-margin-top:66px;}
+  .split{display:grid;align-items:center;gap:48px;padding:80px 0;}
+  .esprit .split{grid-template-columns:.85fr 1.15fr;}
+  .esprit .img{min-height:340px;}
+  h2.big{font-size:clamp(27px,3.3vw,34px);line-height:1.14;margin:14px 0 16px;}
+  .lead{color:var(--ink);font-size:15px;margin-bottom:14px;}
+  .hash{display:flex;gap:18px;flex-wrap:wrap;margin-top:24px;font-family:'Marcellus',serif;font-style:italic;font-size:16px;}
+  .hash .a{color:var(--green);} .hash .b{color:var(--clay);}
+
+  .histoire{background:var(--green);color:#F0EAD8;}
+  .histoire .split{grid-template-columns:1.15fr .85fr;}
+  .histoire .eyebrow{color:var(--gold);}
+  .histoire h2.big{color:#F0EAD8;}
+  .histoire .lead{color:rgba(240,234,216,.84);}
+  .histoire .img{min-height:300px;background:repeating-linear-gradient(135deg,#3a5443 0 13px,#33493b 13px 26px);color:#9bab92;}
+
+  /* CARTE */
+  .carte{padding:80px 0;}
+  .carte-head{text-align:center;margin-bottom:40px;}
+  .carte-head h2{font-size:clamp(30px,3.6vw,38px);margin:10px 0 8px;}
+  .carte-head .sub{font-size:14px;color:var(--muted);}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:3px;padding:26px 26px;}
+  .card h3{font-size:18px;color:var(--green);margin-bottom:16px;}
+  .items{display:flex;flex-direction:column;gap:13px;}
+  .item{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .item .name{font-weight:600;font-size:14.5px;}
+  .item .desc{font-size:12px;color:var(--muted);}
+  .item .price{font-family:'Marcellus',serif;font-size:15px;color:var(--clay);white-space:nowrap;}
+  .tag{font-size:11px;}
+  .card-dej{grid-column:1 / -1;background:var(--green);color:#F0EAD8;border-radius:3px;padding:28px 30px;}
+  .card-dej-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px;}
+  .card-dej h3{color:var(--gold);font-size:20px;margin:0;}
+  .card-dej .meta{font-size:12px;opacity:.7;}
+  .dej-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px 26px;}
+  .card-dej .item .desc{opacity:.7;color:#F0EAD8;}
+  .card-dej .item .price{color:var(--gold);}
+
+  /* LIEU */
+  .lieu{padding:0 0 80px;}
+  .lieu .eyebrow{text-align:center;display:block;}
+  .lieu h2.big{text-align:center;margin:10px 0 26px;}
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;gap:14px;}
+  .gallery .ph:first-child{grid-column:span 2;grid-row:span 1;}
+  .gallery-note{text-align:center;margin-top:16px;font-size:12.5px;color:var(--muted);font-family:'Courier New',monospace;}
+
+  /* FOOTER */
+  footer{background:var(--green-d);color:#F0EAD8;padding:64px 0 30px;}
+  .foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:30px;padding-bottom:40px;border-bottom:1px solid rgba(240,234,216,.14);}
+  .foot-grid .brand{font-family:'Marcellus',serif;font-size:26px;margin-bottom:14px;}
+  .foot-grid p{font-size:14px;color:rgba(240,234,216,.75);max-width:300px;margin-bottom:18px;}
+  .foot-grid h4{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:400;}
+  .foot-grid .col{font-size:14px;line-height:1.9;}
+  .foot-grid a:hover{color:var(--gold);}
+  .foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:rgba(240,234,216,.6);padding-top:18px;}
+  .foot-bottom .socials{display:flex;gap:18px;}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:32px;}
+    .hero-img{height:300px;order:-1;}
+    .esprit .split,.histoire .split{grid-template-columns:1fr!important;}
+    .esprit .img{order:-1;}
+    .cards{grid-template-columns:repeat(2,1fr);}
+    .dej-grid{grid-template-columns:repeat(2,1fr);}
+    .gallery{grid-template-columns:repeat(2,1fr);}
+    .gallery .ph:first-child{grid-column:span 2;}
+    .foot-grid{grid-template-columns:1fr;gap:26px;}
+    .strip{grid-template-columns:1fr;}
+    .strip > div{border-right:0;border-bottom:1px solid rgba(247,242,233,.2);}
+  }
+  @media(max-width:640px){
+    .menu{position:fixed;inset:66px 0 auto 0;background:var(--green);flex-direction:column;gap:0;padding:8px 0;transform:translateY(-130%);transition:transform .3s ease;}
+    .menu.open{transform:translateY(0);}
+    .menu a{padding:14px 28px;width:100%;}
+    .menu .btn{margin:10px 28px;text-align:center;}
+    .burger{display:flex;}
+    .cards{grid-template-columns:1fr;}
+    .dej-grid{grid-template-columns:1fr;}
+    .gallery{grid-template-columns:1fr;}
+    .gallery .ph:first-child{grid-column:span 1;}
+  }
 </style>
 </head>
 <body>
-  <p class="eyebrow">Café Bống · Version 3</p>
-  <h1>Bientôt.</h1>
-  <p>Cette direction de design est en construction.</p>
-  <a href="../">← Retour aux versions</a>
+
+<header>
+  <div class="wrap nav">
+    <a href="#hero" class="logo">Café Bống</a>
+    <nav class="menu" id="menu">
+      <a href="#esprit">Le café</a>
+      <a href="#carte">La carte</a>
+      <a href="#dejeuner">Déjeuner</a>
+      <a href="#lieu">Le lieu</a>
+      <a href="#venir" class="btn btn-outline">Venir</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="kicker">Salon de café vietnamien — Toulouse</div>
+      <h1>Le café viet,<br>fait maison.</h1>
+      <p>Bubble teas, limonades pétillantes, thés glacés, smoothies et gâteaux maison. Une carte courte et fraîche, produits du marché — un clin d'œil au Vietnam.</p>
+      <div class="cta">
+        <a href="#carte" class="btn btn-green">Voir la carte</a>
+        <a href="#venir" class="addr">11 rue de la Bourse →</a>
+      </div>
+    </div>
+    <div class="ph hero-img">photo_bubble_tea.jpg<span class="chip">Brown Sugar Milk</span></div>
+  </div>
+</section>
+
+<div class="strip">
+  <div><div class="t">Fait maison</div><div class="d">Produits du marché, sur place</div></div>
+  <div><div class="t">Lundi – Samedi</div><div class="d">11h00 – 19h00</div></div>
+  <div><div class="t">Déjeuner &amp; Dimanche</div><div class="d">12h00 – 14h00</div></div>
+</div>
+
+<section class="esprit" id="esprit">
+  <div class="wrap split">
+    <div class="ph img">photo_comptoir.jpg</div>
+    <div>
+      <span class="eyebrow">Notre esprit</span>
+      <h2 class="big">Une carte courte &amp; fraîche</h2>
+      <p class="lead">Tout est fait maison, avec des produits du marché. Des boissons gourmandes du Vietnam et d'ailleurs, repensées pour vous, dans un esprit de convivialité.</p>
+      <p class="lead">Un rituel, un éloge de la lenteur : un lieu chaleureux où l'on aime se poser et donner du temps au temps.</p>
+      <div class="hash"><span class="a">We love #people</span><span class="b">We do #goodthings</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="histoire">
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow">Notre histoire</span>
+      <h2 class="big">« Bống », un petit poisson plein de tendresse</h2>
+      <p class="lead">Au Vietnam, <em>Bống</em> est le nom d'un petit poisson d'eau douce, personnage d'une comptine que les mamans chantent à leurs bébés. C'est aussi un surnom affectueux donné aux enfants.</p>
+      <p class="lead">Des moments doux, pleins de tendresse — voilà ce que souhaite vous offrir le Café Bống, et surtout du <em style="color:var(--gold);">#goodvibes</em>.</p>
+    </div>
+    <div class="ph img">photo_portrait_bong.jpg</div>
+  </div>
+</section>
+
+<section class="carte" id="carte">
+  <div class="wrap">
+    <div class="carte-head">
+      <span class="eyebrow">Notre carte</span>
+      <h2>Simplicité &amp; gourmandise</h2>
+      <div class="sub">Tout est fait maison · une carte courte qui change au gré des saisons · on s'adapte à vos allergies.</div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h3>Giải Khát Việt</h3>
+        <div class="items">
+          <div class="item"><div><div class="name">Nước mía</div><div class="desc">Jus de canne &amp; agrumes</div></div><div class="price">5</div></div>
+          <div class="item"><div><div class="name">Nước dừa đá</div><div class="desc">Coco frais &amp; chair de coco</div></div><div class="price">5</div></div>
+          <div class="item"><div><div class="name">Tắc xí muội</div><div class="desc">Kumquat &amp; confit d'abricot</div></div><div class="price">6</div></div>
+          <div class="item"><div><div class="name">Đá Me</div><div class="desc">Tamarin glacé, ananas-gingembre</div></div><div class="price">6</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Bubble tea</h3>
+        <div class="items">
+          <div class="item"><div><div class="name">Thé vert aux fruits <span class="tag">👑</span></div><div class="desc">Pêche, litchi, passion ou mangue</div></div><div class="price">6</div></div>
+          <div class="item"><div><div class="name">Thé noir au lait <span class="tag">♡</span></div><div class="desc">Nature, matcha, taro, vanille</div></div><div class="price">6</div></div>
+          <div class="item"><div><div class="name">Brown Sugar Milk</div><div class="desc">Perles sucre brun · option vegan</div></div><div class="price">6</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Limonades by Bống</h3>
+        <div class="items">
+          <div class="item"><div><div class="name">Ananas &amp; Gingembre</div><div class="desc">Maison, pétillante</div></div><div class="price">6</div></div>
+          <div class="item"><div><div class="name">Mangue &amp; Bergamote <span class="tag">☆</span></div><div class="desc">Maison, pétillante</div></div><div class="price">6</div></div>
+          <div class="item"><div><div class="name">Myrtille &amp; Yuzu</div><div class="desc">Maison, pétillante</div></div><div class="price">6</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Thés glacés</h3>
+        <div class="items">
+          <div class="item"><div><div class="name">Trà chanh</div><div class="desc">Thé vert jasmin, citron</div></div><div class="price">4,5</div></div>
+          <div class="item"><div><div class="name">Pêche &amp; Hibiscus</div><div class="desc">Hibiscus, morceaux de pêche</div></div><div class="price">5,5</div></div>
+          <div class="item"><div><div class="name">Blue lychee ginger <span class="tag">☆</span></div><div class="desc">Sencha, butterfly pea, litchi</div></div><div class="price">5,5</div></div>
+          <div class="item"><div><div class="name">Mango &amp; Dragon</div><div class="desc">Oolong, fruit du dragon &amp; mangue</div></div><div class="price">5,5</div></div>
+          <div class="item"><div><div class="name">Framboise &amp; Basilic</div><div class="desc">Rooibos framboise, basilic frais</div></div><div class="price">5,5</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Smoothies</h3>
+        <div class="items">
+          <div class="item"><div><div class="name">Mangue</div><div class="desc">Pur fruit, onctueux</div></div><div class="price">5,5</div></div>
+          <div class="item"><div><div class="name">Framboise</div><div class="desc">Pur fruit, onctueux</div></div><div class="price">5,5</div></div>
+          <div class="item"><div><div class="name">Mix mangue-framboise</div><div class="desc">Le meilleur des deux</div></div><div class="price">5,5</div></div>
+          <div class="item"><div><div class="name">Avocat <span class="tag">☆</span></div><div class="desc">Lait concentré &amp; crème de coco</div></div><div class="price">6</div></div>
+          <div class="item"><div><div class="name">Frappé yaourt mangue</div><div class="desc">Yaourt frais &amp; mangue</div></div><div class="price">6</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Gâteaux maison</h3>
+        <div class="items">
+          <div class="item"><div><div class="name">Cookie</div><div class="desc">Chocolat, fait sur place</div></div><div class="price">3</div></div>
+          <div class="item"><div><div class="name">Brownie caramel</div><div class="desc">Coulis caramel</div></div><div class="price">4</div></div>
+          <div class="item"><div><div class="name">Cheesecake lemon curd</div><div class="desc">Citron, croûte sablée</div></div><div class="price">5,5</div></div>
+          <div class="item"><div><div class="name">Carrot cake</div><div class="desc">Épices, glaçage cream cheese</div></div><div class="price">5,5</div></div>
+          <div class="item"><div><div class="name">Red Velvet <span class="tag">☆</span></div><div class="desc">Framboises, cream cheese</div></div><div class="price">5,5</div></div>
+          <div class="item"><div><div class="name">Cake taro-myrtille <span class="tag">👑</span></div><div class="desc">Taro, myrtille-bergamote</div></div><div class="price">6</div></div>
+          <div class="item"><div><div class="name">Cake Oolong jasmin</div><div class="desc">Oolong, jasmin, mangue-passion</div></div><div class="price">6</div></div>
+          <div class="item"><div><div class="name">Tiramisu à la viet</div><div class="desc">Robusta &amp; lait concentré</div></div><div class="price">7</div></div>
+        </div>
+      </div>
+      <div class="card-dej" id="dejeuner">
+        <div class="card-dej-head">
+          <h3>Le déjeuner — 12h–14h</h3>
+          <div class="meta">Produits du marché · l'ardoise change · certains ingrédients varient</div>
+        </div>
+        <div class="dej-grid">
+          <div class="item"><div><div class="name">Club « Bánh-mì »</div><div class="desc">Poulet ou végé · sauce maison</div></div><div class="price">13</div></div>
+          <div class="item"><div><div class="name">Salade végé</div><div class="desc">Soja, caramel au poivre</div></div><div class="price">14,5</div></div>
+          <div class="item"><div><div class="name">Salade poulet</div><div class="desc">Mariné, épices &amp; citronnelle</div></div><div class="price">14,5</div></div>
+          <div class="item"><div><div class="name">Salade saumon gravlax</div><div class="desc">Gravlax maison, aneth, betterave</div></div><div class="price">15,5</div></div>
+          <div class="item"><div><div class="name">Plat du moment</div><div class="desc">Voir l'ardoise · touche viet</div></div><div class="price">—</div></div>
+          <div class="item"><div><div class="name">Combo snack</div><div class="desc">Club ou salade + boisson</div></div><div class="price">—</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lieu" id="lieu">
+  <div class="wrap">
+    <span class="eyebrow">Le lieu</span>
+    <h2 class="big">Lanternes, koï &amp; brique.</h2>
+    <div class="gallery">
+      <div class="ph">photo_lanternes.jpg</div>
+      <div class="ph">photo_bassin_koi.jpg</div>
+      <div class="ph">photo_mur_brique.jpg</div>
+      <div class="ph">photo_coin_cosy.jpg</div>
+      <div class="ph">photo_comptoir.jpg</div>
+    </div>
+    <p class="gallery-note">📷 Visuels d'exemple — à remplacer par les vraies photos du lieu.</p>
+  </div>
+</section>
+
+<footer id="venir">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand">Café Bống</div>
+        <p>On vous garde une tasse au chaud. Réservez ou venez simplement vous poser, rue de la Bourse.</p>
+        <a href="https://maps.google.com/?q=11+rue+de+la+Bourse+31000+Toulouse" class="btn btn-gold">Itinéraire</a>
+      </div>
+      <div class="col">
+        <h4>Venir</h4>
+        11 rue de la Bourse<br>31000 Toulouse<br>
+        <a href="tel:0534335970">05 34 33 59 70</a><br>
+        cafebong.toulouse@gmail.com
+      </div>
+      <div class="col">
+        <h4>Horaires</h4>
+        Lun – Sam · 11h – 19h<br>
+        Dimanche · brunch 12h – 14h<br>
+        <span style="opacity:.7;">On s'adapte à vos allergies 🌱</span>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© Café Bống · Café viet fait maison · Toulouse</span>
+      <span class="socials">
+        <a href="https://www.instagram.com/cafebong_toulouse/">Instagram</a>
+        <a href="https://www.tiktok.com/@cafebong_toulouse">TikTok</a>
+        <a href="https://www.facebook.com/cafebong.toulouse">Facebook</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const burger=document.getElementById('burger');
+  const menu=document.getElementById('menu');
+  burger.addEventListener('click',()=>menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+</script>
 </body>
 </html>
