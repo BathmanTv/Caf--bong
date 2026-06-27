@@ -194,6 +194,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ---------- scroll reveals via IntersectionObserver ----------
+     Independent of GSAP/Lenis, so content NEVER stays stuck hidden
+     (the GSAP/ScrollTrigger version was unreliable on mobile → empty
+     sections). Adds `.in`; CSS does the fade. Runs on every device. */
+  {
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    if (reduce || !('IntersectionObserver' in window)) {
+      revealEls.forEach(el => el.classList.add('in'));
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      revealEls.forEach(el => io.observe(el));
+    }
+  }
+
   /* ==========================================================
      ========  MOTION LAYER (only when !reduce + libs)  =======
      ========================================================== */
@@ -207,14 +223,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   try {
     gsap.registerPlugin(ScrollTrigger);
+    // Mobile = native scroll + lighter motion. Lenis smooth-scroll and
+    // scrubbed parallax/scale stutter on phones → desktop-only.
+    const isMobile = matchMedia('(max-width: 768px)').matches || matchMedia('(pointer: coarse)').matches;
 
-    /* ---------- 1 · Lenis + GSAP : single RAF ---------- */
-    const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
-    window.lenis = lenis;
     let lenisVel = 0;
-    lenis.on('scroll', (e) => { lenisVel = e.velocity || 0; ScrollTrigger.update(); });
-    gsap.ticker.add((t) => lenis.raf(t * 1000));
-    gsap.ticker.lagSmoothing(0);
+    /* ---------- 1 · Lenis (desktop only — single RAF) ---------- */
+    if (!isMobile) {
+      const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
+      window.lenis = lenis;
+      lenis.on('scroll', (e) => { lenisVel = e.velocity || 0; ScrollTrigger.update(); });
+      gsap.ticker.add((t) => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+    }
 
     // DPR cap hint (cheap; helps GPU on hi-dpi laptops)
     // (no canvas here, but keep parallax/scale layers crisp-but-cheap)
@@ -246,51 +267,25 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    /* ---------- 2b · generic reveals ---------- */
-    const revealEls = gsap.utils.toArray('[data-reveal]');
-    const revealTweens = new Map();
-    revealEls.forEach(el => {
-      const tw = gsap.fromTo(el,
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 85%', once: true } });
-      revealTweens.set(el, tw);
-    });
+    /* (generic [data-reveal] reveals now run via IntersectionObserver above —
+       not GSAP/ScrollTrigger — so they never stay stuck hidden on mobile.) */
 
-    /* Safety net: a `once` reveal whose trigger sits ABOVE the viewport
-       top on (re)load never crosses 'top 85%' from below, so it would
-       stay opacity:0 forever (deep-link + scroll-up loses content).
-       On every refresh, force the final state for any such element. */
-    function rescueReveals() {
-      revealEls.forEach(el => {
-        const r = el.getBoundingClientRect();
-        // element is above the fold (already scrolled past) and not yet shown
-        if (r.bottom < 0 || (r.top < 0 && r.bottom < innerHeight * 0.85)) {
-          if (+getComputedStyle(el).opacity < 0.99) {
-            const tw = revealTweens.get(el);
-            const st = tw && tw.scrollTrigger;
-            if (st) st.kill();        // drop the now-pointless trigger
-            gsap.set(el, { y: 0, opacity: 1, clearProps: 'transform' });
-          }
-        }
+    /* ---------- 6 · parallax + scale-on-scroll (desktop only) ---------- */
+    if (!isMobile) {
+      document.querySelectorAll('.hero-bg[data-parallax]').forEach(bg => {
+        gsap.to(bg, {
+          yPercent: 14, ease: 'none',
+          scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
+        });
+      });
+      gsap.utils.toArray('[data-scale]').forEach(el => {
+        const img = el.querySelector('img') || el;
+        gsap.fromTo(img, { scale: 1 }, {
+          scale: 1.08, ease: 'none',
+          scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true },
+        });
       });
     }
-    ScrollTrigger.addEventListener('refresh', rescueReveals);
-
-    /* ---------- 6 · parallax + scale-on-scroll ---------- */
-    document.querySelectorAll('.hero-bg[data-parallax]').forEach(bg => {
-      gsap.to(bg, {
-        yPercent: 14, ease: 'none',
-        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
-      });
-    });
-    gsap.utils.toArray('[data-scale]').forEach(el => {
-      const img = el.querySelector('img') || el;
-      gsap.fromTo(img, { scale: 1 }, {
-        scale: 1.08, ease: 'none',
-        scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true },
-      });
-    });
 
     /* ---------- 4 · menu clip-path + stagger timeline ---------- */
     if (overlay) {
@@ -331,9 +326,10 @@ document.addEventListener('DOMContentLoaded', () => {
        scroll-jacking. Cards fade in via the CSS `cardIn` animation,
        which needs no JS and can't get stuck if GSAP fails.) */
 
-    /* ---------- 7 · velocity-reactive marquee ---------- */
+    /* ---------- 7 · velocity-reactive marquee (desktop) ----------
+       On mobile the plain CSS @keyframes marquee runs instead (cheaper). */
     const track = document.querySelector('.marquee-track');
-    if (track) {
+    if (track && !isMobile) {
       track.style.animation = 'none';  // take over from CSS keyframes
       let mx = 0;
       const halfW = () => track.scrollWidth / 2; // track duplicates content once

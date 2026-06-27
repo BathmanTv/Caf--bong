@@ -76,11 +76,12 @@ em{font-style:italic}
    JS-GATED HIDE: hidden states apply ONLY when <html class="js">
    so the page is fully readable without JS (guardrail).
    ============================================================ */
-.js [data-reveal]{opacity:0;transform:translateY(22px)}
+.js [data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .7s var(--e-out),transform .7s var(--e-out)}
+.js [data-reveal].in{opacity:1;transform:none}
 .js [data-reveal-lines]{opacity:0}
 /* reduced-motion or no-JS → everything visible */
 @media (prefers-reduced-motion:reduce){
-  .js [data-reveal]{opacity:1!important;transform:none!important}
+  .js [data-reveal]{opacity:1!important;transform:none!important;transition:none}
   .js [data-reveal-lines]{opacity:1!important}
 }
 
