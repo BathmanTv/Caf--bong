@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Café Bống · Atelier · Le café viet fait maison · Toulouse</title>
 <meta name="description" content="Café Bống — le café viet fait maison à Toulouse. Bubble teas, limonades, thés glacés, smoothies, gâteaux maison et déjeuner. 11 rue de la Bourse.">
+<meta property="og:title" content="Café Bống · le café viet fait maison · Toulouse">
+<meta property="og:description" content="Bubble teas, limonades, thés glacés, gâteaux maison et déjeuner. 11 rue de la Bourse, Toulouse.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"Café Bống","servesCuisine":"Vietnamienne","address":{"@type":"PostalAddress","streetAddress":"11 rue de la Bourse","postalCode":"31000","addressLocality":"Toulouse","addressCountry":"FR"},"telephone":"+33534335970","email":"cafebong.toulouse@gmail.com","openingHours":["Mo-Sa 11:00-19:00","Su 12:00-14:00"],"sameAs":["https://www.instagram.com/cafebong_toulouse/","https://www.tiktok.com/@cafebong_toulouse","https://www.facebook.com/cafebong.toulouse"]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Archivo:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -12,8 +19,8 @@
 <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js" defer></script>
 <style>
   :root{
-    --cream:#F7F2E9; --green:#2F4A38; --green-d:#21261F; --clay:#B5613C;
-    --gold:#E8C56B; --ink:#4a5347; --muted:#8a7a66; --line:rgba(33,38,31,.08);
+    --cream:#F7F2E9; --green:#2F4A38; --green-d:#21261F; --clay:#9C4F2E;
+    --gold:#E8C56B; --ink:#4a5347; --muted:#6F6253; --line:rgba(33,38,31,.08);
     --max:1180px;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -152,7 +159,17 @@
   @media (prefers-reduced-motion:reduce){
     html.js :is(.hero .kicker,.hero h1,.hero p,.hero .cta,.hero-img,.strip>div,.esprit .split>*,.histoire .split>*,.carte-head>*,.cards .card,.card-dej,.lieu h2.big,.gallery .ph,.foot-grid>*){opacity:1!important;transform:none!important;transition:none;}
   }
-  .btn{will-change:transform}
+  /* a11y : focus visible (or sur fond vert/terre cuite/crème) */
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px;}
+  /* signature : titre hero révélé ligne par ligne (masque) */
+  .hero h1 .line-mask{display:block;overflow:hidden;}
+  html.js .hero h1 .line{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1);}
+  html.js .hero h1 .line-mask:nth-child(2) .line{transition-delay:.12s;}
+  html.js .hero h1.in .line{transform:none;}
+  @media (prefers-reduced-motion:reduce){html.js .hero h1 .line{transform:none!important;transition:none;}}
+  /* micro-interaction : filet or sous le nom au survol d'un item (desktop) */
+  .card .item .name{background-image:linear-gradient(var(--gold),var(--gold));background-size:0 2px;background-repeat:no-repeat;background-position:left 100%;transition:background-size .3s ease;}
+  @media (hover:hover){.card .item:hover .name{background-size:100% 2px;}}
 </style>
 </head>
 <body>
@@ -175,7 +192,7 @@
   <div class="wrap hero-grid">
     <div>
       <div class="kicker">Salon de café vietnamien — Toulouse</div>
-      <h1>Le café viet,<br>fait maison.</h1>
+      <h1><span class="line-mask"><span class="line">Le café viet,</span></span><span class="line-mask"><span class="line">fait maison.</span></span></h1>
       <p>Bubble teas, limonades pétillantes, thés glacés, smoothies et gâteaux maison. Une carte courte et fraîche, produits du marché — un clin d'œil au Vietnam.</p>
       <div class="cta">
         <a href="#carte" class="btn btn-green">Voir la carte</a>
@@ -353,10 +370,23 @@
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var isMobile=matchMedia('(max-width:768px)').matches||matchMedia('(pointer:coarse)').matches;
 
-  // burger
+  // burger (a11y: aria-expanded, Escape ferme + rend le focus, menu fermé inert sur mobile)
   var burger=document.getElementById('burger'),menu=document.getElementById('menu');
-  if(burger&&menu){burger.addEventListener('click',function(){menu.classList.toggle('open');});
-    menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');});});}
+  function burgerActive(){return getComputedStyle(burger).display!=='none';}
+  function setMenu(open){
+    menu.classList.toggle('open',open);
+    burger.setAttribute('aria-expanded',open?'true':'false');
+    if(burgerActive()&&!open){menu.setAttribute('inert','');}else{menu.removeAttribute('inert');}
+  }
+  if(burger&&menu){
+    burger.setAttribute('aria-controls','menu');
+    burger.setAttribute('aria-expanded','false');
+    if(burgerActive())menu.setAttribute('inert','');
+    burger.addEventListener('click',function(){setMenu(!menu.classList.contains('open'));});
+    menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setMenu(false);});});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classList.contains('open')){setMenu(false);burger.focus();}});
+    addEventListener('resize',function(){if(!burgerActive())menu.removeAttribute('inert');else if(!menu.classList.contains('open'))menu.setAttribute('inert','');});
+  }
 
   // scroll reveals (IntersectionObserver — fiable mobile, jamais bloqué)
   var SEL='.hero .kicker,.hero h1,.hero p,.hero .cta,.hero-img,.strip>div,.esprit .split>*,.histoire .split>*,.carte-head>*,.cards .card,.card-dej,.lieu h2.big,.gallery .ph,.foot-grid>*';
@@ -374,11 +404,7 @@
     if(window.Lenis){var lenis=new Lenis({lerp:0.09,smoothWheel:true});function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);}
   });}
 
-  // boutons magnétiques (desktop only)
-  if(!isMobile&&!reduce){document.querySelectorAll('.hero .btn').forEach(function(el){
-    el.addEventListener('pointermove',function(e){var r=el.getBoundingClientRect();el.style.transform='translate('+((e.clientX-r.left-r.width/2)*0.22)+'px,'+((e.clientY-r.top-r.height/2)*0.22)+'px)';});
-    el.addEventListener('pointerleave',function(){el.style.transform='';});
-  });}
+  // (boutons magnétiques retirés — froid pour un café + conflit avec le hover lift ; hover suffit)
 })();
 </script>
 </body>

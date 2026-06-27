@@ -12,7 +12,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Baloo+2:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=10">
+<link rel="stylesheet" href="style.css?v=11">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"Café Bống","servesCuisine":"Vietnamienne","address":{"@type":"PostalAddress","streetAddress":"11 rue de la Bourse","postalCode":"31000","addressLocality":"Toulouse","addressCountry":"FR"},"telephone":"+33534335970","email":"cafebong.toulouse@gmail.com","openingHours":["Mo-Sa 11:00-19:00","Su 12:00-14:00"],"sameAs":["https://www.instagram.com/cafebong_toulouse/","https://www.tiktok.com/@cafebong_toulouse","https://www.facebook.com/cafebong.toulouse"]}
+</script>
 </head>
 <body>
 
@@ -81,7 +84,7 @@
 <!-- ============================================================ -->
 <section id="hero" class="hero">
   <div class="hero-bg" data-parallax>
-    <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=1500&q=70" alt="Ambiance lanternes du Café Bống" onerror="this.style.display='none'">
+    <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=1500&q=70" alt="Ambiance lanternes du Café Bống" width="1500" height="1000" fetchpriority="high" onerror="this.style.display='none'">
   </div>
   <div class="hero-scrim" aria-hidden="true"></div>
 
@@ -138,15 +141,16 @@
   </dialog>
 
   <!-- famille filters -->
-  <div class="rail-tabs" role="tablist" aria-label="Familles de la carte">
-    <button class="rail-tab is-active" data-filter="tout"        role="tab" aria-selected="true">Tout</button>
-    <button class="rail-tab" data-filter="giai-khat"   role="tab" aria-selected="false">Giải Khát</button>
-    <button class="rail-tab" data-filter="bubble"      role="tab" aria-selected="false">Bubble tea</button>
-    <button class="rail-tab" data-filter="limonade"    role="tab" aria-selected="false">Limonades</button>
-    <button class="rail-tab" data-filter="thes-glaces" role="tab" aria-selected="false">Thés glacés</button>
-    <button class="rail-tab" data-filter="smoothies"   role="tab" aria-selected="false">Smoothies</button>
-    <button class="rail-tab" data-filter="gateaux"     role="tab" aria-selected="false">Gâteaux</button>
-    <button class="rail-tab" data-filter="dejeuner"    role="tab" aria-selected="false">Déjeuner</button>
+  <p id="rail-live" class="sr-only" aria-live="polite"></p>
+  <div class="rail-tabs" role="group" aria-label="Filtrer la carte par famille">
+    <button class="rail-tab is-active" data-filter="tout"        type="button" aria-pressed="true">Tout</button>
+    <button class="rail-tab" data-filter="giai-khat"   type="button" aria-pressed="false">Giải Khát</button>
+    <button class="rail-tab" data-filter="bubble"      type="button" aria-pressed="false">Bubble tea</button>
+    <button class="rail-tab" data-filter="limonade"    type="button" aria-pressed="false">Limonades</button>
+    <button class="rail-tab" data-filter="thes-glaces" type="button" aria-pressed="false">Thés glacés</button>
+    <button class="rail-tab" data-filter="smoothies"   type="button" aria-pressed="false">Smoothies</button>
+    <button class="rail-tab" data-filter="gateaux"     type="button" aria-pressed="false">Gâteaux</button>
+    <button class="rail-tab" data-filter="dejeuner"    type="button" aria-pressed="false">Déjeuner</button>
   </div>
 
   <!-- product grid (filtered by family tabs — natural vertical page scroll) -->
@@ -627,6 +631,6 @@
 <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-<script src="main.js?v=10"></script>
+<script src="main.js?v=11"></script>
 </body>
 </html>

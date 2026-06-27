@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Café Bống · Rétro Saïgon · Le café viet fait maison · Toulouse</title>
 <meta name="description" content="Café Bống — le café viet fait maison à Toulouse. Bubble teas, limonades, thés glacés, smoothies, gâteaux maison et déjeuner. 11 rue de la Bourse.">
+<meta property="og:title" content="Café Bống · le café viet fait maison · Toulouse">
+<meta property="og:description" content="Bubble teas, limonades, thés glacés, gâteaux maison et déjeuner. 11 rue de la Bourse, Toulouse.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"Café Bống","servesCuisine":"Vietnamienne","address":{"@type":"PostalAddress","streetAddress":"11 rue de la Bourse","postalCode":"31000","addressLocality":"Toulouse","addressCountry":"FR"},"telephone":"+33534335970","email":"cafebong.toulouse@gmail.com","openingHours":["Mo-Sa 11:00-19:00","Su 12:00-14:00"],"sameAs":["https://www.instagram.com/cafebong_toulouse/","https://www.tiktok.com/@cafebong_toulouse","https://www.facebook.com/cafebong.toulouse"]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -72,13 +79,13 @@
   /* CARTE */
   .carte{background:var(--paper);padding:80px 0;}
   .carte-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:40px;}
-  .carte-head .note{font-size:13px;color:#7a6a52;max-width:260px;text-align:right;}
+  .carte-head .note{font-size:13px;color:#685a43;max-width:260px;text-align:right;}
   .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:38px 44px;}
   .cat h3{font-size:19px;color:var(--terra);border-bottom:1px solid rgba(43,32,24,.18);padding-bottom:10px;margin-bottom:16px;}
   .items{display:flex;flex-direction:column;gap:14px;}
   .item{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
   .item .name{font-weight:600;font-size:15px;}
-  .item .desc{font-size:12.5px;color:#7a6a52;}
+  .item .desc{font-size:12.5px;color:#685a43;}
   .item .price{font-family:'DM Serif Display',serif;font-size:16px;white-space:nowrap;}
   .tag{font-size:11px;color:var(--terra);}
   .dej{margin-top:38px;background:var(--espresso);color:var(--cream);border-radius:4px;padding:32px 36px;}
@@ -143,7 +150,14 @@
   @media (prefers-reduced-motion:reduce){
     html.js :is(.hero h1,.hero p,.hero .cta,.split .txt>*,.split .img,.carte-head>*,.cat,.dej,.lieu h2.big,.gallery .ph,.venir-grid>*){opacity:1!important;transform:none!important;transition:none;}
   }
-  .btn{will-change:transform}
+  /* a11y : focus visible */
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px;}
+  /* signature : titre hero révélé ligne par ligne (masque) */
+  .hero h1 .line-mask{display:block;overflow:hidden;}
+  html.js .hero h1 .line{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1);}
+  html.js .hero h1 .line-mask:nth-child(2) .line{transition-delay:.12s;}
+  html.js .hero h1.in .line{transform:none;}
+  @media (prefers-reduced-motion:reduce){html.js .hero h1 .line{transform:none!important;transition:none;}}
 </style>
 </head>
 <body>
@@ -167,7 +181,7 @@
   <div class="shade"></div>
   <div class="wrap"><div class="hero-inner">
     <span class="tagpill">Salon de café · 11 rue de la Bourse · Toulouse</span>
-    <h1>Le café viet,<br><em>fait maison.</em></h1>
+    <h1><span class="line-mask"><span class="line">Le café viet,</span></span><span class="line-mask"><span class="line"><em>fait maison.</em></span></span></h1>
     <p>Bubble teas, limonades pétillantes, thés glacés et gâteaux maison — une carte courte, fraîche, un clin d'œil au Vietnam.</p>
     <div class="cta">
       <a href="#carte" class="btn btn-primary">Voir la carte</a>
@@ -298,7 +312,7 @@
       <div class="ph">photo_coin_cosy.jpg</div>
       <div class="ph">photo_comptoir.jpg</div>
     </div>
-    <p style="margin-top:16px;font-size:12.5px;color:#7a6a52;font-family:'Courier New',monospace;">📷 Visuels d'exemple — à remplacer par les vraies photos du lieu.</p>
+    <p style="margin-top:16px;font-size:12.5px;color:#685a43;font-family:'Courier New',monospace;">📷 Visuels d'exemple — à remplacer par les vraies photos du lieu.</p>
   </div>
 </section>
 
@@ -344,10 +358,23 @@
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var isMobile=matchMedia('(max-width:768px)').matches||matchMedia('(pointer:coarse)').matches;
 
-  // burger
+  // burger (a11y: aria-expanded, Escape ferme + rend le focus, menu fermé inert sur mobile)
   var burger=document.getElementById('burger'),menu=document.getElementById('menu');
-  if(burger&&menu){burger.addEventListener('click',function(){menu.classList.toggle('open');});
-    menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');});});}
+  function burgerActive(){return getComputedStyle(burger).display!=='none';}
+  function setMenu(open){
+    menu.classList.toggle('open',open);
+    burger.setAttribute('aria-expanded',open?'true':'false');
+    if(burgerActive()&&!open){menu.setAttribute('inert','');}else{menu.removeAttribute('inert');}
+  }
+  if(burger&&menu){
+    burger.setAttribute('aria-controls','menu');
+    burger.setAttribute('aria-expanded','false');
+    if(burgerActive())menu.setAttribute('inert','');
+    burger.addEventListener('click',function(){setMenu(!menu.classList.contains('open'));});
+    menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setMenu(false);});});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classList.contains('open')){setMenu(false);burger.focus();}});
+    addEventListener('resize',function(){if(!burgerActive())menu.removeAttribute('inert');else if(!menu.classList.contains('open'))menu.setAttribute('inert','');});
+  }
 
   // scroll reveals (IntersectionObserver — fiable mobile, jamais bloqué)
   var SEL='.hero h1,.hero p,.hero .cta,.split .txt>*,.split .img,.carte-head>*,.cat,.dej,.lieu h2.big,.gallery .ph,.venir-grid>*';
@@ -365,11 +392,7 @@
     if(window.Lenis){var lenis=new Lenis({lerp:0.09,smoothWheel:true});function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);}
   });}
 
-  // boutons magnétiques (desktop only)
-  if(!isMobile&&!reduce){document.querySelectorAll('.hero .btn').forEach(function(el){
-    el.addEventListener('pointermove',function(e){var r=el.getBoundingClientRect();el.style.transform='translate('+((e.clientX-r.left-r.width/2)*0.22)+'px,'+((e.clientY-r.top-r.height/2)*0.22)+'px)';});
-    el.addEventListener('pointerleave',function(){el.style.transform='';});
-  });}
+  // (boutons magnétiques retirés — froid pour un café + conflit avec le hover lift ; hover suffit)
 })();
 </script>
 </body>

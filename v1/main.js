@@ -146,17 +146,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid  = document.querySelector('[data-grid]');
   const cards = grid ? Array.from(grid.querySelectorAll('.rail-card')) : [];
 
+  const railLive = document.getElementById('rail-live');
   function activateTab(tab) {
-    tabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
+    tabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-pressed', 'false'); });
     tab.classList.add('is-active');
-    tab.setAttribute('aria-selected', 'true');
+    tab.setAttribute('aria-pressed', 'true');
   }
   function filterGrid(fam) {
+    let n = 0;
     cards.forEach(c => {
       const f = c.dataset.filter;
       const show = fam === 'tout' || f === fam || f === 'all';   // end-cap (all) always shows
       c.classList.toggle('is-hidden', !show);
+      if (show && f !== 'all') {
+        n++;
+        c.style.animation = 'none'; void c.offsetWidth; c.style.animation = '';  // replay cardIn entrance
+      }
     });
+    if (railLive) railLive.textContent = n + (n > 1 ? ' produits affichés' : ' produit affiché');
   }
   tabs.forEach(tab => {
     tab.addEventListener('click', () => { activateTab(tab); filterGrid(tab.dataset.filter); });
