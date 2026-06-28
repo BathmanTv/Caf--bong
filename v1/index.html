@@ -16,6 +16,15 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"Café Bống","servesCuisine":"Vietnamienne","address":{"@type":"PostalAddress","streetAddress":"11 rue de la Bourse","postalCode":"31000","addressLocality":"Toulouse","addressCountry":"FR"},"telephone":"+33534335970","email":"cafebong.toulouse@gmail.com","openingHours":["Mo-Sa 11:00-19:00","Su 12:00-14:00"],"sameAs":["https://www.instagram.com/cafebong_toulouse/","https://www.tiktok.com/@cafebong_toulouse","https://www.facebook.com/cafebong.toulouse"]}
 </script>
+<style>
+  /* placeholders honnêtes (conseil : pas de stock trompeur, parité photo) */
+  .rc-photo.todo{display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#f3e7d2,#ead9bc);}
+  .rc-photo.todo .todo-tag{font-size:.8rem;letter-spacing:.03em;font-weight:500;color:#a06a45;
+    display:inline-flex;gap:6px;align-items:center;opacity:.9;}
+  .carte-note{max-width:46ch;margin:10px auto 0;font-size:.82rem;color:#8a7a66;
+    letter-spacing:.02em;text-align:center;}
+</style>
 </head>
 <body>
 
@@ -137,6 +146,7 @@
   <div class="carte-head">
     <p class="eyebrow" data-reveal>Le comptoir</p>
     <h2 data-reveal>La carte</h2>
+    <p class="carte-note" data-reveal>📷 Visuels d'illustration — les vraies photos du café arrivent après le shooting.</p>
     <button type="button" class="cartes-link" data-reveal aria-haspopup="dialog">
       <span aria-hidden="true">📋</span> Voir la carte en images
       <span aria-hidden="true">→</span>
@@ -165,7 +175,7 @@
     <!-- 7 phares -->
     <article class="rail-card">
       <span class="rc-badge" data-badge="love">♡ coup de cœur</span>
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1627998792088-f8a9b72f2ea0?auto=format&fit=crop&w=600&q=70" alt="Brown Sugar Milk" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
+      <div class="rc-photo todo"><span class="todo-tag">📷 Photo à venir</span></div>
       <div class="rc-body">
         <span class="rc-fam">Bubble tea</span>
         <h3 class="rc-name">Brown Sugar Milk</h3>
@@ -175,7 +185,7 @@
     </article>
 
     <article class="rail-card">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1437418747212-8d9709afab22?auto=format&fit=crop&w=600&q=70" alt="Blue lychee ginger" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
+      <div class="rc-photo todo"><span class="todo-tag">📷 Photo à venir</span></div>
       <div class="rc-body">
         <span class="rc-fam">Thé glacé</span>
         <h3 class="rc-name">Blue lychee ginger</h3>
@@ -186,7 +196,7 @@
 
     <article class="rail-card">
       <span class="rc-badge" data-badge="best">☆ best-seller</span>
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=70" alt="Mango & Dragon" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
+      <div class="rc-photo todo"><span class="todo-tag">📷 Photo à venir</span></div>
       <div class="rc-body">
         <span class="rc-fam">Thé glacé</span>
         <h3 class="rc-name">Mango &amp; Dragon</h3>
@@ -197,7 +207,7 @@
 
     <article class="rail-card">
       <span class="rc-badge" data-badge="best">☆ best-seller</span>
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1499638673689-79a0b5115d87?auto=format&fit=crop&w=600&q=70" alt="Limonade myrtille-yuzu" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
+      <div class="rc-photo todo"><span class="todo-tag">📷 Photo à venir</span></div>
       <div class="rc-body">
         <span class="rc-fam">Limonade by Bống</span>
         <h3 class="rc-name">Myrtille &amp; Yuzu</h3>
@@ -208,7 +218,7 @@
 
     <article class="rail-card">
       <span class="rc-badge" data-badge="best">☆ best-seller</span>
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&q=70" alt="Frappé yaourt mangue" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
+      <div class="rc-photo todo"><span class="todo-tag">📷 Photo à venir</span></div>
       <div class="rc-body">
         <span class="rc-fam">Smoothie</span>
         <h3 class="rc-name">Frappé yaourt mangue</h3>
@@ -219,7 +229,7 @@
 
     <article class="rail-card">
       <span class="rc-badge" data-badge="best">☆ best-seller</span>
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=600&q=70" alt="Cake taro-myrtille" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
+      <div class="rc-photo todo"><span class="todo-tag">📷 Photo à venir</span></div>
       <div class="rc-body">
         <span class="rc-fam">Gâteau maison</span>
         <h3 class="rc-name">Cake taro-myrtille</h3>
@@ -229,7 +239,7 @@
     </article>
 
     <article class="rail-card">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1539252554453-80ab65ce3586?auto=format&fit=crop&w=600&q=70" alt="Club Bánh-mì" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
+      <div class="rc-photo todo"><span class="todo-tag">📷 Photo à venir</span></div>
       <div class="rc-body">
         <span class="rc-fam">Déjeuner · 12h–14h</span>
         <h3 class="rc-name">Club « Bánh-mì »</h3>
