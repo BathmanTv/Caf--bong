@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café Bống · effet phin scroll</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=DM+Sans:wght@400;500&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+<style>
+  :root{--cream:#f7efe1;--ink:#2a2018;--laque:#b8431f;--gold:#c2952f;--coffee:#3a2114;--coffee2:#5a3420;--milk:#e9d5b0;--metal:#b9b2a6;--metal-d:#8d867a;--glass:rgba(255,255,255,.16);}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;color:var(--ink);background:
+    radial-gradient(120% 90% at 50% -10%,#fff7e9,transparent 55%),var(--cream);}
+  .intro,.outro{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8vh 24px;gap:14px}
+  .eyebrow{font-family:'Caveat',cursive;font-size:28px;color:var(--laque)}
+  h1,h2{font-family:'Fraunces',serif;font-weight:600;line-height:1.05}
+  h1{font-size:clamp(2.4rem,7vw,4.5rem)}
+  h1 em{font-style:italic;color:var(--laque)}
+  .sub{color:#6a5a48;max-width:42ch}
+  .scrollhint{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#8a7a66;margin-top:8px}
+
+  /* ----- pinned scene ----- */
+  .scene{height:320vh;position:relative}
+  .stage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+  .stage::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 42%,rgba(184,67,31,.06),transparent 70%)}
+  .cap{position:absolute;top:11vh;left:0;right:0;text-align:center}
+  .cap h2{font-size:clamp(1.6rem,4vw,2.6rem)}
+  .cap .step{font-family:'Caveat',cursive;font-size:24px;color:var(--gold)}
+
+  .rig{position:relative;width:230px;height:430px;filter:drop-shadow(0 30px 40px rgba(42,32,24,.18))}
+
+  /* phin (filtre) */
+  .phin{position:absolute;left:50%;top:0;transform:translateX(-50%);width:120px;z-index:3}
+  .phin .lid{height:14px;width:120px;border-radius:6px 6px 3px 3px;background:linear-gradient(#cfc7b9,var(--metal))}
+  .phin .knob{position:absolute;top:-9px;left:50%;transform:translateX(-50%);width:10px;height:12px;border-radius:50%;background:var(--metal-d)}
+  .phin .cup{margin:0 auto;width:104px;height:64px;clip-path:polygon(6% 0,94% 0,86% 100%,14% 100%);background:linear-gradient(180deg,#cfc7b9,var(--metal) 40%,var(--metal-d));position:relative}
+  .phin .cup::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.06) 0 2px,transparent 2px 10px)}
+  .phin .base{margin:0 auto;width:70px;height:12px;background:var(--metal-d);clip-path:polygon(0 0,100% 0,80% 100%,20% 100%)}
+  .spout{position:absolute;left:50%;top:90px;transform:translateX(-50%);width:6px;height:10px;background:var(--metal-d);border-radius:0 0 3px 3px}
+
+  /* drip */
+  .drip{position:absolute;left:50%;top:100px;transform:translateX(-50%);width:7px;height:11px;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;background:var(--coffee);z-index:2;
+    animation:drip 1.05s cubic-bezier(.5,0,.9,.5) infinite}
+  @keyframes drip{0%{transform:translateX(-50%) translateY(0) scaleY(.7);opacity:0}
+    10%{opacity:1}85%{transform:translateX(-50%) translateY(150px) scaleY(1.25);opacity:1}
+    100%{transform:translateX(-50%) translateY(160px) scaleY(.2);opacity:0}}
+
+  /* glass */
+  .glass{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:150px;height:250px;z-index:1;
+    border-radius:10px 10px 22px 22px;background:var(--glass);
+    border:2px solid rgba(255,255,255,.5);box-shadow:inset 8px 0 16px rgba(255,255,255,.25),inset -10px 0 18px rgba(42,32,24,.12);
+    overflow:hidden;backdrop-filter:blur(1px)}
+  .fill{position:absolute;left:0;right:0;bottom:0;overflow:hidden;height:calc(6% + var(--p,0) * 80%)}
+  .milk{position:absolute;left:0;right:0;bottom:0;height:46px;background:linear-gradient(180deg,#f0dcb6,var(--milk));z-index:1}
+  .coffee{position:absolute;left:0;right:0;bottom:0;height:100%;background:linear-gradient(180deg,var(--coffee2),var(--coffee));mix-blend-mode:multiply;z-index:2;opacity:.96}
+  .surface{position:absolute;left:0;right:0;top:0;height:8px;background:radial-gradient(60% 100% at 50% 0,rgba(255,255,255,.35),transparent);z-index:3}
+  .ice{position:absolute;z-index:4;width:34px;height:34px;border-radius:6px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.5);box-shadow:inset 0 0 8px rgba(255,255,255,.35)}
+  .ice.a{top:14px;left:16px;transform:rotate(-12deg)} .ice.b{top:30px;right:18px;transform:rotate(16deg)} .ice.c{top:54px;left:42px;transform:rotate(6deg);width:28px;height:28px}
+  .straw{position:absolute;z-index:5;top:-26px;right:34px;width:9px;height:200px;border-radius:6px;background:linear-gradient(90deg,var(--laque),#e0673a);transform:rotate(9deg)}
+
+  @media (max-width:600px){.rig{transform:scale(.82)}.cap{top:8vh}}
+  @media (prefers-reduced-motion:reduce){
+    .scene{height:auto} .stage{position:static;height:auto;padding:14vh 0}
+    .drip{display:none} .fill{height:78%}
+  }
+</style>
+</head>
+<body>
+
+<section class="intro">
+  <div class="eyebrow">Café Bống · cà phê sữa đá</div>
+  <h1>Le café viet,<br><em>goutte à goutte.</em></h1>
+  <p class="sub">Descends — le phin se vide, le verre se remplit. Lent, intense, généreux.</p>
+  <div class="scrollhint">scroll ↓</div>
+</section>
+
+<section class="scene" id="scene">
+  <div class="stage">
+    <div class="cap"><div class="step" data-step>① Le phin infuse</div><h2 data-title>Phin slow-brew</h2></div>
+    <div class="rig">
+      <div class="phin">
+        <div class="lid"><div class="knob"></div></div>
+        <div class="cup"></div>
+        <div class="base"></div>
+      </div>
+      <div class="spout"></div>
+      <div class="drip" data-drip></div>
+      <div class="glass">
+        <div class="straw"></div>
+        <div class="ice a"></div><div class="ice b"></div><div class="ice c"></div>
+        <div class="fill">
+          <div class="coffee"></div>
+          <div class="milk"></div>
+          <div class="surface"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="outro">
+  <div class="eyebrow">Prêt</div>
+  <h2>Cà phê sữa đá — 4€</h2>
+  <p class="sub">Servi sur glace, lait concentré, robusta du pays. Fait maison, chez Café Bống.</p>
+</section>
+
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || typeof gsap === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+  const stage = document.querySelector('.stage');
+  const drip = document.querySelector('[data-drip]');
+  const stepEl = document.querySelector('[data-step]');
+  const titleEl = document.querySelector('[data-title]');
+  const STEPS=[[0,'① Le phin infuse','Phin slow-brew'],[.45,'② La goutte tombe','Goutte à goutte'],[.8,'③ Sur glace','Cà phê sữa đá']];
+  let cur=-1;
+  ScrollTrigger.create({
+    trigger:'#scene', start:'top top', end:'bottom bottom', scrub:0.5,
+    onUpdate:(self)=>{
+      const p=self.progress;
+      stage.style.setProperty('--p', p.toFixed(3));
+      drip.style.opacity = Math.max(0, Math.min(1,(0.92 - p)*9));   // drip stops as glass fills
+      let i=0; for(let k=0;k<STEPS.length;k++) if(p>=STEPS[k][0]) i=k;
+      if(i!==cur){cur=i; stepEl.textContent=STEPS[i][1]; titleEl.textContent=STEPS[i][2];}
+    }
+  });
+})();
+</script>
+</body>
+</html>
