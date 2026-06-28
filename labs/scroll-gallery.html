@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café Bống · galerie scroll horizontal</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+<style>
+  :root{--cream:#f7efe1;--ink:#2a2018;--laque:#b8431f;--gold:#c2952f;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--cream)}
+  h1,h2{font-family:'Fraunces',serif;font-weight:600;line-height:1.05}
+  .intro,.outro{min-height:54vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8vh 24px;gap:12px}
+  .intro h1{font-size:clamp(2.2rem,6vw,4rem)} .intro h1 em{font-style:italic;color:var(--laque)}
+  .sub{color:#6a5a48;max-width:40ch}
+  .scrollhint{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#8a7a66}
+
+  /* ----- horizontal scroll gallery ----- */
+  .gal{position:relative;height:300vh}                 /* scroll room */
+  .pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+  .gal-head{position:absolute;top:8vh;left:0;right:0;text-align:center}
+  .gal-head .step{font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--laque)}
+  .gal-head h2{font-size:clamp(1.6rem,4vw,2.6rem)}
+  .track{display:flex;gap:3vw;padding:0 8vw;width:max-content;will-change:transform}
+  .card{position:relative;width:60vh;max-width:78vw;height:64vh;border-radius:16px;overflow:hidden;
+    box-shadow:0 24px 50px rgba(42,32,24,.22);flex:0 0 auto}
+  .card img{position:absolute;top:0;left:-10%;width:120%;height:100%;object-fit:cover;will-change:transform}
+  .card .label{position:absolute;left:0;right:0;bottom:0;padding:26px 22px 18px;z-index:2;color:#fff;
+    background:linear-gradient(transparent,rgba(20,14,9,.72));display:flex;justify-content:space-between;align-items:flex-end}
+  .card .label .n{font-family:'Fraunces',serif;font-size:1.5rem}
+  .card .label .p{font-weight:500}
+
+  @media (prefers-reduced-motion:reduce),(max-width:768px),(pointer:coarse){
+    .gal{height:auto}
+    .pin{position:static;height:auto;padding:10vh 0 4vh;display:block}
+    .gal-head{position:static;margin-bottom:24px}
+    .track{width:auto;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 16px 18px;gap:14px;-webkit-overflow-scrolling:touch}
+    .card{scroll-snap-align:center;width:84vw;height:62vh}
+    .card img{left:0;width:100%}
+  }
+</style>
+</head>
+<body>
+
+<section class="intro">
+  <div class="sub" style="font-size:14px;letter-spacing:.05em;color:var(--laque)">Café Bống · la carte</div>
+  <h1>Fait maison,<br><em>servi avec le sourire.</em></h1>
+  <p class="sub">Descends — la carte défile au rythme du scroll.</p>
+  <div class="scrollhint">scroll ↓</div>
+</section>
+
+<section class="gal" id="gal">
+  <div class="pin">
+    <div class="gal-head"><div class="step">Nos plats</div><h2>Le meilleur du Vietnam</h2></div>
+    <div class="track" id="track">
+      <figure class="card"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=900&q=70&auto=format" alt=""><figcaption class="label"><span class="n">Phở bò</span><span class="p">9,50€</span></figcaption></figure>
+      <figure class="card"><img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=900&q=70&auto=format" alt=""><figcaption class="label"><span class="n">Bánh mì</span><span class="p">6,50€</span></figcaption></figure>
+      <figure class="card"><img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=900&q=70&auto=format" alt=""><figcaption class="label"><span class="n">Bún bò Huế</span><span class="p">10€</span></figcaption></figure>
+      <figure class="card"><img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=900&q=70&auto=format" alt=""><figcaption class="label"><span class="n">Nem rán</span><span class="p">5€</span></figcaption></figure>
+      <figure class="card"><img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=900&q=70&auto=format" alt=""><figcaption class="label"><span class="n">Cà phê sữa đá</span><span class="p">4€</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="outro">
+  <h2>11 rue de la Bourse · Toulouse</h2>
+  <p class="sub">Ouvert du mardi au samedi. Sur place ou à emporter.</p>
+</section>
+
+<script>
+(function(){
+  const mobile = matchMedia('(max-width:768px),(pointer:coarse)').matches;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (mobile || reduce || typeof gsap === 'undefined') return;   // native horizontal scroll on touch
+  gsap.registerPlugin(ScrollTrigger);
+  const track = document.getElementById('track');
+  const dist = () => track.scrollWidth - window.innerWidth + window.innerWidth*0.04;
+  // pinned vertical scroll → horizontal translate
+  const tween = gsap.to(track, {x: () => -dist(), ease:'none',
+    scrollTrigger:{trigger:'#gal', start:'top top', end:()=>'+='+dist(), scrub:0.6, invalidateOnRefresh:true}});
+  // parallax: image drifts opposite inside each card as it crosses the viewport
+  gsap.utils.toArray('.card img').forEach(img=>{
+    gsap.fromTo(img,{x:'-6%'},{x:'6%',ease:'none',
+      scrollTrigger:{trigger:img.closest('.card'),containerAnimation:tween,start:'left right',end:'right left',scrub:true}});
+  });
+})();
+</script>
+</body>
+</html>
