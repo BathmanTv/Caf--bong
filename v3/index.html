@@ -227,7 +227,13 @@
 
 <section class="esprit" id="esprit">
   <div class="wrap split">
-    <div class="ph img">photo_comptoir.jpg</div>
+    <div class="ph img" style="padding:0;overflow:hidden;">
+      <video autoplay muted loop playsinline preload="metadata" aria-label="Café phin vietnamien — cà phê việt nam"
+        style="width:100%;height:100%;object-fit:cover;display:block;background:#1a120b;">
+        <source src="media/phin-web.webm" type="video/webm">
+        <source src="media/phin-web.mp4" type="video/mp4">
+      </video>
+    </div>
     <div>
       <span class="eyebrow">Notre esprit</span>
       <h2 class="big">Une carte courte &amp; fraîche</h2>
@@ -394,7 +400,7 @@
   var M=[[/lanterne|hero|ambiance/i,'1559925393-8be0ec4767c8'],[/comptoir|brique|interieur|lieu/i,'1521017432531-fbd92d768814'],[/bubble|tea|boisson|drink/i,'1442512595331-e89e73853f31'],[/koi|bassin/i,'1453614512568-c4024d13c247'],[/cosy|portrait|poisson|bong|people/i,'1559056199-641a0ac8b55e']];
   function u(id){return 'https://images.unsplash.com/photo-'+id+'?auto=format&fit=crop&w=900&q=70';}
   function pick(t){for(var i=0;i<M.length;i++)if(M[i][0].test(t))return M[i][1];return '1521017432531-fbd92d768814';}
-  document.querySelectorAll('.ph').forEach(function(ph){var im=new Image();im.src=u(pick((ph.textContent||'')+' '+ph.className));im.alt='';im.loading='lazy';im.onerror=function(){im.remove();};ph.insertBefore(im,ph.firstChild);});
+  document.querySelectorAll('.ph').forEach(function(ph){if(ph.querySelector('video'))return;var im=new Image();im.src=u(pick((ph.textContent||'')+' '+ph.className));im.alt='';im.loading='lazy';im.onerror=function(){im.remove();};ph.insertBefore(im,ph.firstChild);});
 })();
 </script>
 
