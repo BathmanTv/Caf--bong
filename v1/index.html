@@ -106,12 +106,29 @@
 <!-- 2 · INTRO / PROMESSE                                         -->
 <!-- ============================================================ -->
 <section id="intro" class="intro">
-  <p class="intro-eyebrow" data-reveal>Café Bống</p>
-  <p class="intro-lead" data-reveal>
-    Tout fait maison, produits du marché. Une carte courte, fraîche,
-    <em>un clin d'œil au Vietnam.</em>
-  </p>
+  <div class="intro-wrap">
+    <video class="intro-phin" autoplay muted loop playsinline preload="metadata"
+      aria-label="Café phin vietnamien qui coule, fait maison">
+      <source src="media/phin-web.webm" type="video/webm">
+      <source src="media/phin-web.mp4" type="video/mp4">
+    </video>
+    <div class="intro-copy">
+      <p class="intro-eyebrow" data-reveal>Café Bống</p>
+      <p class="intro-lead" data-reveal>
+        Tout fait maison, produits du marché. Une carte courte, fraîche,
+        <em>un clin d'œil au Vietnam.</em>
+      </p>
+    </div>
+  </div>
 </section>
+<style>
+  .intro .intro-wrap{display:flex;gap:clamp(24px,5vw,60px);align-items:center;justify-content:center;
+    flex-wrap:wrap;max-width:1080px;margin:0 auto;padding:0 20px;}
+  .intro .intro-phin{width:min(360px,82vw);aspect-ratio:1;border-radius:20px;object-fit:cover;
+    box-shadow:0 26px 54px rgba(42,32,24,.24);flex:0 0 auto;background:#1a120b;}
+  .intro .intro-copy{flex:1;min-width:260px;max-width:520px;}
+  @media (max-width:680px){.intro .intro-wrap{flex-direction:column;text-align:center;}}
+</style>
 
 <!-- ============================================================ -->
 <!-- 3 · LA CARTE — Le Comptoir (rail horizontal)                 -->
@@ -142,84 +159,11 @@
 
   <!-- famille filters -->
   <p id="rail-live" class="sr-only" aria-live="polite"></p>
-  <div class="rail-tabs" role="group" aria-label="Filtrer la carte par famille">
-    <button class="rail-tab is-active" data-filter="tout"        type="button" aria-pressed="true">Tout</button>
-    <button class="rail-tab" data-filter="giai-khat"   type="button" aria-pressed="false">Giải Khát</button>
-    <button class="rail-tab" data-filter="bubble"      type="button" aria-pressed="false">Bubble tea</button>
-    <button class="rail-tab" data-filter="limonade"    type="button" aria-pressed="false">Limonades</button>
-    <button class="rail-tab" data-filter="thes-glaces" type="button" aria-pressed="false">Thés glacés</button>
-    <button class="rail-tab" data-filter="smoothies"   type="button" aria-pressed="false">Smoothies</button>
-    <button class="rail-tab" data-filter="gateaux"     type="button" aria-pressed="false">Gâteaux</button>
-    <button class="rail-tab" data-filter="dejeuner"    type="button" aria-pressed="false">Déjeuner</button>
-  </div>
-
   <!-- product grid (filtered by family tabs — natural vertical page scroll) -->
   <div class="grid" data-grid role="list" aria-label="Nos produits">
 
-    <!-- GIẢI KHÁT VIỆT -->
-    <article class="rail-card" data-filter="giai-khat">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=70" alt="Nước mía, jus de canne" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Giải Khát Việt</span>
-        <h3 class="rc-name">Nước mía</h3>
-        <p class="rc-desc">Jus de canne à sucre &amp; agrumes</p>
-        <span class="rc-price">5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="giai-khat">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=70" alt="Nước dừa đá, coco frais" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Giải Khát Việt</span>
-        <h3 class="rc-name">Nước dừa đá</h3>
-        <p class="rc-desc">Coco frais &amp; chair de coco</p>
-        <span class="rc-price">5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="giai-khat">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1497534547324-0ebb3f052e88?auto=format&fit=crop&w=600&q=70" alt="Tắc xí muội, kumquat" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Giải Khát Việt</span>
-        <h3 class="rc-name">Tắc xí muội</h3>
-        <p class="rc-desc">Kumquat &amp; confit d'abricot</p>
-        <span class="rc-price">6€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="giai-khat">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=70" alt="Đá Me, tamarin glacé" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Giải Khát Việt</span>
-        <h3 class="rc-name">Đá Me</h3>
-        <p class="rc-desc">Tamarin glacé, notes ananas-gingembre</p>
-        <span class="rc-price">6€</span>
-      </div>
-    </article>
-
-    <!-- BUBBLE TEAS -->
-    <article class="rail-card" data-filter="bubble">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=600&q=70" alt="Thé vert aux fruits" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Bubble tea</span>
-        <h3 class="rc-name">Thé vert aux fruits</h3>
-        <p class="rc-desc">Froid · pêche, litchi, passion ou mangue</p>
-        <span class="rc-price">6€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="bubble">
-      <span class="rc-badge" data-badge="new">👑 nouveauté</span>
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1525373698358-041e3a460346?auto=format&fit=crop&w=600&q=70" alt="Thé noir au lait" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Bubble tea</span>
-        <h3 class="rc-name">Thé noir au lait</h3>
-        <p class="rc-desc">Chaud/froid · nature, matcha, taro, vanille</p>
-        <span class="rc-price">6€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="bubble">
+    <!-- 7 phares -->
+    <article class="rail-card">
       <span class="rc-badge" data-badge="love">♡ coup de cœur</span>
       <div class="rc-photo"><img src="https://images.unsplash.com/photo-1627998792088-f8a9b72f2ea0?auto=format&fit=crop&w=600&q=70" alt="Brown Sugar Milk" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
       <div class="rc-body">
@@ -230,60 +174,7 @@
       </div>
     </article>
 
-    <!-- LIMONADES -->
-    <article class="rail-card" data-filter="limonade">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=70" alt="Limonade ananas-gingembre" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Limonade by Bống</span>
-        <h3 class="rc-name">Ananas &amp; Gingembre</h3>
-        <p class="rc-desc">Limonade maison, pétillante</p>
-        <span class="rc-price">6€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="limonade">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=600&q=70" alt="Limonade mangue-bergamote" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Limonade by Bống</span>
-        <h3 class="rc-name">Mangue &amp; Bergamote</h3>
-        <p class="rc-desc">Limonade maison, pétillante</p>
-        <span class="rc-price">6€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="limonade">
-      <span class="rc-badge" data-badge="best">☆ best-seller</span>
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1499638673689-79a0b5115d87?auto=format&fit=crop&w=600&q=70" alt="Limonade myrtille-yuzu" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Limonade by Bống</span>
-        <h3 class="rc-name">Myrtille &amp; Yuzu</h3>
-        <p class="rc-desc">Limonade maison, pétillante</p>
-        <span class="rc-price">6€</span>
-      </div>
-    </article>
-
-    <!-- THÉS GLACÉS -->
-    <article class="rail-card" data-filter="thes-glaces">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=70" alt="Trà chanh" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Thé glacé</span>
-        <h3 class="rc-name">Trà chanh</h3>
-        <p class="rc-desc">Thé vert jasmin vietnamien, citron</p>
-        <span class="rc-price">4,5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="thes-glaces">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=600&q=70" alt="Pêche-Hibiscus" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Thé glacé</span>
-        <h3 class="rc-name">Pêche &amp; Hibiscus</h3>
-        <p class="rc-desc">Hibiscus, morceaux de pêche</p>
-        <span class="rc-price">5,5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="thes-glaces">
+    <article class="rail-card">
       <div class="rc-photo"><img src="https://images.unsplash.com/photo-1437418747212-8d9709afab22?auto=format&fit=crop&w=600&q=70" alt="Blue lychee ginger" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
       <div class="rc-body">
         <span class="rc-fam">Thé glacé</span>
@@ -293,7 +184,7 @@
       </div>
     </article>
 
-    <article class="rail-card" data-filter="thes-glaces">
+    <article class="rail-card">
       <span class="rc-badge" data-badge="best">☆ best-seller</span>
       <div class="rc-photo"><img src="https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=70" alt="Mango & Dragon" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
       <div class="rc-body">
@@ -304,58 +195,18 @@
       </div>
     </article>
 
-    <article class="rail-card" data-filter="thes-glaces">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1499961524705-d5f516fe18e9?auto=format&fit=crop&w=600&q=70" alt="Framboise basilic" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
+    <article class="rail-card">
+      <span class="rc-badge" data-badge="best">☆ best-seller</span>
+      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1499638673689-79a0b5115d87?auto=format&fit=crop&w=600&q=70" alt="Limonade myrtille-yuzu" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
       <div class="rc-body">
-        <span class="rc-fam">Thé glacé</span>
-        <h3 class="rc-name">Framboise &amp; Basilic</h3>
-        <p class="rc-desc">Rooibos framboise, basilic frais</p>
-        <span class="rc-price">5,5€</span>
-      </div>
-    </article>
-
-    <!-- SMOOTHIES -->
-    <article class="rail-card" data-filter="smoothies">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?auto=format&fit=crop&w=600&q=70" alt="Smoothie mangue" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Smoothie</span>
-        <h3 class="rc-name">Mangue</h3>
-        <p class="rc-desc">Pur fruit, onctueux</p>
-        <span class="rc-price">5,5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="smoothies">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=600&q=70" alt="Smoothie framboise" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Smoothie</span>
-        <h3 class="rc-name">Framboise</h3>
-        <p class="rc-desc">Pur fruit, onctueux</p>
-        <span class="rc-price">5,5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="smoothies">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1502741224143-90386d7f8c82?auto=format&fit=crop&w=600&q=70" alt="Smoothie mix mangue-framboise" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Smoothie</span>
-        <h3 class="rc-name">Mix</h3>
-        <p class="rc-desc">Mangue &amp; framboise</p>
-        <span class="rc-price">5,5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="smoothies">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?auto=format&fit=crop&w=600&q=70" alt="Smoothie avocat" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Smoothie</span>
-        <h3 class="rc-name">Avocat</h3>
-        <p class="rc-desc">Lait concentré &amp; crème de coco</p>
+        <span class="rc-fam">Limonade by Bống</span>
+        <h3 class="rc-name">Myrtille &amp; Yuzu</h3>
+        <p class="rc-desc">Limonade maison, pétillante</p>
         <span class="rc-price">6€</span>
       </div>
     </article>
 
-    <article class="rail-card" data-filter="smoothies">
+    <article class="rail-card">
       <span class="rc-badge" data-badge="best">☆ best-seller</span>
       <div class="rc-photo"><img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&q=70" alt="Frappé yaourt mangue" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
       <div class="rc-body">
@@ -366,58 +217,7 @@
       </div>
     </article>
 
-    <!-- GÂTEAUX -->
-    <article class="rail-card" data-filter="gateaux">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=600&q=70" alt="Cookie" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Gâteau maison</span>
-        <h3 class="rc-name">Cookie</h3>
-        <p class="rc-desc">Chocolat, fait sur place</p>
-        <span class="rc-price">3€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="gateaux">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=70" alt="Brownie caramel" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Gâteau maison</span>
-        <h3 class="rc-name">Brownie caramel</h3>
-        <p class="rc-desc">Coulis caramel</p>
-        <span class="rc-price">4€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="gateaux">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=70" alt="Cheesecake lemon curd" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Gâteau maison</span>
-        <h3 class="rc-name">Cheesecake lemon curd</h3>
-        <p class="rc-desc">Citron, croûte sablée</p>
-        <span class="rc-price">5,5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="gateaux">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?auto=format&fit=crop&w=600&q=70" alt="Carrot cake" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Gâteau maison</span>
-        <h3 class="rc-name">Carrot cake</h3>
-        <p class="rc-desc">Épices, glaçage cream cheese</p>
-        <span class="rc-price">5,5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="gateaux">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1586788680434-30d324b2d46f?auto=format&fit=crop&w=600&q=70" alt="Red Velvet" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Gâteau maison</span>
-        <h3 class="rc-name">Red Velvet</h3>
-        <p class="rc-desc">Framboises, cream cheese</p>
-        <span class="rc-price">5,5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="gateaux">
+    <article class="rail-card">
       <span class="rc-badge" data-badge="best">☆ best-seller</span>
       <div class="rc-photo"><img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=600&q=70" alt="Cake taro-myrtille" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
       <div class="rc-body">
@@ -428,85 +228,13 @@
       </div>
     </article>
 
-    <article class="rail-card" data-filter="gateaux">
-      <span class="rc-badge" data-badge="new">👑 nouveauté</span>
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=600&q=70" alt="Cake Oolong jasmin" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Gâteau maison</span>
-        <h3 class="rc-name">Cake Oolong jasmin</h3>
-        <p class="rc-desc">Oolong, jasmin, mangue-passion</p>
-        <span class="rc-price">6€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="gateaux">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=600&q=70" alt="Tiramisu à la viet" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Gâteau maison</span>
-        <h3 class="rc-name">Tiramisu à la viet</h3>
-        <p class="rc-desc">Robusta &amp; lait concentré</p>
-        <span class="rc-price">7€</span>
-      </div>
-    </article>
-
-    <!-- DÉJEUNER -->
-    <article class="rail-card" data-filter="dejeuner">
+    <article class="rail-card">
       <div class="rc-photo"><img src="https://images.unsplash.com/photo-1539252554453-80ab65ce3586?auto=format&fit=crop&w=600&q=70" alt="Club Bánh-mì" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
       <div class="rc-body">
         <span class="rc-fam">Déjeuner · 12h–14h</span>
         <h3 class="rc-name">Club « Bánh-mì »</h3>
         <p class="rc-desc">Poulet ou végé · sauce asiatique maison</p>
         <span class="rc-price">13€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="dejeuner">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=70" alt="Salade végé" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Déjeuner · 12h–14h</span>
-        <h3 class="rc-name">Salade végé</h3>
-        <p class="rc-desc">Soja, sauce caramélisée au poivre</p>
-        <span class="rc-price">14,5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="dejeuner">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=70" alt="Salade poulet" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Déjeuner · 12h–14h</span>
-        <h3 class="rc-name">Salade poulet</h3>
-        <p class="rc-desc">Poulet mariné, épices &amp; citronnelle</p>
-        <span class="rc-price">14,5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="dejeuner">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=70" alt="Salade saumon gravlax" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Déjeuner · 12h–14h</span>
-        <h3 class="rc-name">Salade saumon gravlax</h3>
-        <p class="rc-desc">Gravlax maison, aneth, betterave</p>
-        <span class="rc-price">15,5€</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="dejeuner">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=70" alt="Plat du moment" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Déjeuner · 12h–14h</span>
-        <h3 class="rc-name">Plat du moment</h3>
-        <p class="rc-desc">Voir l'ardoise · touche viet</p>
-        <span class="rc-price">—</span>
-      </div>
-    </article>
-
-    <article class="rail-card" data-filter="dejeuner">
-      <div class="rc-photo"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600&q=70" alt="Combo snack" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></div>
-      <div class="rc-body">
-        <span class="rc-fam">Déjeuner · 12h–14h</span>
-        <h3 class="rc-name">Combo snack</h3>
-        <p class="rc-desc">Club ou salade + boisson</p>
-        <span class="rc-price">—</span>
       </div>
     </article>
 

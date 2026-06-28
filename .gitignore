@@ -1,0 +1,7 @@
+
+# assets lourds locaux (sources anim, non servis)
+v1/img/ChatGPT Image*.png
+labs/**/*.mp4
+labs/**/*.webm
+labs/**/seq*/
+labs/**/*.png
